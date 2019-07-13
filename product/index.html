@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>分享</title>
+        <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+        <!-- 新 Bootstrap4 核心 CSS 文件 -->
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+        <style>
+            p, ul, li, h6 {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                background: #f0f0f0;
+            }
+            img {
+                width: 100%;
+                object-fit: cover;
+            }
+            .c-b3 {
+                color: #333333;
+            }
+            .c-b6 {
+                color: #666666;
+            }
+            .c-r {
+                color: #EE3024;
+            }
+            .fs-l {
+                font-size: 16px;
+            }
+            .fs-m {
+                font-size: 15px;
+            }
+            .fs-s {
+                font-size: 14px;
+            }
+            .fs-sl {
+                font-size: 24px;
+            }
+            #product, #description, #remark, #pinglunsection {
+                background: #ffffff;
+            }
+            #carouselBanner img {
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+            }
+            #product {
+                color: #333333;
+                padding: 10px 15px;
+            }
+            #product p:nth-child(2) {
+                font-weight: 700;
+                margin: 2px 0;
+            }
+            #product p:nth-child(3) {
+                font-weight: 700;
+            }
+            #pinglunsection {
+                padding: 0 15px;
+                height: 50px;
+                line-height: 50px;
+                margin-top: 10px;
+            }
+            #dividingLine {
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #666666;
+                background: url(image/fengexian@3x.png) no-repeat 10% 50%,
+                    url(image/fengexian@3x.png) no-repeat 90% 50%;
+                background-size: 25% 1px;
+            }
+            #description {
+                width: 100%;
+            }
+            #remark {
+                padding: 5px 15px 20px;
+                text-align: justify;
+            }
+            #remark ul {
+                padding: 0 15px;
+            }
+            #remark p {
+                margin: 5px 0px;
+                font-weight: 400;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <div id="carouselBanner" class="carousel slide" data-ride="carousel">
+                <div class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" :class="{active: index == 0}"  v-for="(pic, index) in product.imgList">
+                            <img :src="pic">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselBanner" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselBanner" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselBanner" :data-slide-to="index" :class="{active: index == 0}"  v-for="(pic, index) in product.imgList"></li>
+                    </ol>
+                </div>
+            </div>
+            <div id="product">
+                <p class="fs-s"><span class="c-r">￥<span class="fs-sl" v-html="product.price"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c-b6">已售<span v-html="product.sales"></span>件</span>
+                </p>
+                <p class="c-b3 fs-m" v-html="product.productName"></p>
+                <p class="c-b3 fs-m" v-html="product.saleName"></p>
+            </div>
+            <div id="pinglunsection" class="fs-l c-b3">暂无评价</div>
+            <div id='dividingLine'>详情</div>
+            <div id="description" v-html="product.productDesc"></div>
+            <div id="remark" class="fs-m c-b6">
+                <p>价格说明</p>
+                <ul>
+                    <li>
+                        <p class="fs-l c-b3">划线价格</p>
+                        商品的专柜价、吊牌价、正品零售价、厂商指导价或该商品曾经展示过的销售价等，并非原价，仅供参考。
+                    </li>
+                    <li>
+                        <p class="fs-l c-b3">未划线价格</p>
+                        商品的实时标价，不因表述的差异改变性质。具体成交价格根据商品参加活动，或会员使用优惠券、积分等发生变化，最终以订单结算页价格为准。
+                    </li>
+                    <li>商家详情页（含主图）以图片或文字形式标注的一口价、促销价、优惠价等价格可能是在使用优惠券、满减或特定优惠活动和时段等情形下的价格，具体请以结算页面的标价、优惠条件或活动规则为准。</li>
+                    <li>若商家单独对划线价格进行说明的，以商家的表述为准。</li>
+                </ul>
+            </div>
+            <div id='dividingLine'>
+                我们是有底线的
+            </div>
+      </div>
+    </body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="/shared/util/md5.js"></script>
+    <script>
+        let productId = location.search.substr(4);
+        let url = '/product/api/app/getProductDetail';
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                product: {},
+            },
+            created: function() {
+                axios.post(url,encryption(productId)).then(response => {
+                    vm.product = response.data.data;
+                    console.log(vm.product);
+                    if(!vm.product) {
+                        window.location.href = '404.html';
+                    }
+                    // let keys = Object.keys(vm.product);
+                    // keys.forEach(key => {
+                    //     let container = document.querySelector('#' + key);
+                    //     if (container) {
+                    //         container.innerHTML = vm.product[key]
+                    //     }
+                    // })
+                }).catch(error => {
+                    console.log(error)
+                    window.location.href = '500.html'
+                });
+            }
+        })
+    </script>
+</html>

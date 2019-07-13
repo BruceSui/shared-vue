@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>分享</title>
+    </head>
+    <body>
+    </body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="/shared/md5.js"></script>
+    <script>
+        let search = location.search;
+        let params = new Map();
+        let productId;
+        console.log(location.href.substring('?'))
+        console.log(1)
+        if(!~search.indexOf('?')) {
+            window.location.href = '/404.html'
+        } else {
+            search.substring(1).split('&').forEach(param => {
+                let key = param.substring(0, param.indexOf('='));
+                let value = param.substring(param.indexOf('=')).substring(1);
+                params.set(key, value);
+            })
+        }
+        if(!params.get('id') && !params.get('type')) {
+            window.location.href = '/404.html'
+        } else {
+            productId = params.get('id');
+        }
+
+        if (params.get('type') == 1) {
+            window.location.href = '/shared/product/index.html?id=' + params.get('id');
+        } else if(params.get('type') == 2){
+            window.location.href = '/shared/seller/index.html?id=' + params.get('id');
+        } else if(params.get('type') == 3) {
+            window.location.href = '/shared/article/index.html?id=' + params.get('id');
+        }
+    </script>
+    
+</html>
